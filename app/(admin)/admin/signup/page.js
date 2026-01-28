@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export default function AdminSignup() {
     const router = useRouter();
@@ -9,7 +12,6 @@ export default function AdminSignup() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
 
@@ -63,7 +65,7 @@ export default function AdminSignup() {
                         <h3 className="fw-bold mb-1">Sign Up</h3>
                         <p className="text-muted mb-4">Create admin account</p>
 
-                        <form>
+                        <form onSubmit={handleSignup}>
                             <input
                                 placeholder="Full name"
                                 className="form-control border-0 border-bottom rounded-0 shadow-none"
@@ -72,13 +74,6 @@ export default function AdminSignup() {
                                 required
                             />
 
-                            <input
-                                placeholder="Full name"
-                                className="form-control border-0 border-bottom rounded-0 shadow-none"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
 
                             <input
                                 type="email"
@@ -97,13 +92,15 @@ export default function AdminSignup() {
                                 required
                             />
 
-                            <button className="btn btn-dark py-2 rounded-3" disabled={loading}>
+                            <button className="btn btn-dark py-2 rounded-3 w-100" disabled={loading}>
                                 {loading ? "Creating..." : "Create Account"}
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
+            <ToastContainer position="top-right" />
+
         </>
     )
 }
