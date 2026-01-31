@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 
 export default function AdminSignup() {
@@ -96,6 +97,13 @@ export default function AdminSignup() {
                                 {loading ? "Creating..." : "Create Account"}
                             </button>
                         </form>
+                        <p className="text-center mt-3 text-muted">
+                            Already have an account?{" "}
+                            <Link href="/admin/login" className="text-decoration-none fw-semibold">
+                                Login
+                            </Link>
+                        </p>
+
                     </div>
                 </div>
             </div>
