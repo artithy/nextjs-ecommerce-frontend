@@ -47,7 +47,7 @@ export default function CustomerSignupPage() {
                         <img
                             src="/customer_signup.png"
                             className="vh-100 object-fit-cover"
-                            style={{ width: "96%" }}
+                            style={{ width: "100%" }}
                         />
                     </div>
 
