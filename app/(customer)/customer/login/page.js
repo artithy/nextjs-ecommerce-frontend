@@ -33,35 +33,47 @@ export default function Login() {
     };
 
     return (
-        <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
-            <div
-                className="bg-white shadow rounded-4 p-5 w-100"
-                style={{ maxWidth: "420px" }}
-            >
+        <div className="container-fluid min-vh-100">
+            <div className="row min-vh-100">
 
-                <form onSubmit={handleLogin} className="d-grid gap-4">
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        className="form-control border-0 border-bottom rounded-0 shadow-none"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
+                <div className="col-12 col-lg-6 p-0 overflow-hidden">
+                    <img
+                        src="/customer_login.png"
+                        className="vh-100 object-fit-cover"
+                        style={{ width: "100%" }}
                     />
+                </div>
 
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className="form-control border-0 border-bottom rounded-0 shadow-none"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                <div className="col-12 col-lg-6 d-flex align-items-center justify-content-center bg-white py-5">
+                    <div style={{ width: "100%", maxWidth: "420px" }}>
+                        <p className="text-muted mb-4">Login to continue</p>
 
-                    <button className="btn btn-dark py-2 rounded-3">
-                        Login
-                    </button>
-                </form>
+                        <form onSubmit={handleLogin} className="d-grid gap-4">
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                className="form-control border-0 border-bottom rounded-0 shadow-none"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                className="form-control border-0 border-bottom rounded-0 shadow-none"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+
+                            <button className="btn btn-dark py-2 rounded-3">
+                                Login
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </div>
     );
