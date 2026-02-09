@@ -33,8 +33,8 @@ export default function Navbar() {
                     </ul>
 
                     <div className="d-flex gap-2">
-                        <Link href="/login" className="btn btn-outline-primary">Login</Link>
-                        <Link href="/login" className="btn btn-outline-primary">Signup</Link>
+                        <Link href="/customer/login" className="btn btn-outline-primary">Login</Link>
+                        <Link href="/customer/signup" className="btn btn-outline-primary">Signup</Link>
 
                     </div>
                 </div>
