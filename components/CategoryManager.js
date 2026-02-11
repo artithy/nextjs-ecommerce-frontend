@@ -25,4 +25,43 @@ export default function CategoryManager() {
     useEffect(() => {
         fetchCategories();
     }, []);
+
+    const handleAdd = async () => {
+        e.preventDefault();
+        if (!name) {
+            return toast.error("Category name is required");
+        }
+
+        try {
+            const res = await fetch(
+                "http://127.0.0.1:8000/api/admin/categories",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authentication: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ name }),
+                }
+            );
+
+            const data = await res.json();
+            if (!res.ok) {
+                return toast.error(data.message || "Failed to add category");
+            }
+
+            toast.success("Category added successfully");
+            setName("");
+            fetchCategories();
+        } catch {
+            toast.error("Add failed");
+        }
+    }
+
+    const handleEdit = (category) => {
+        setEditId(category.id);
+        setName(category.name);
+    }
+
+
 }
