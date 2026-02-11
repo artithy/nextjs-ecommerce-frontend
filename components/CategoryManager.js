@@ -63,5 +63,51 @@ export default function CategoryManager() {
         setName(category.name);
     }
 
+    const handleUpdate = async (e) => {
+
+        e.preventDefault();
+
+        if (!editId)
+            return;
+
+
+        try {
+
+            const res = await fetch(
+                `http://127.0.0.1:8000/api/admin/categories/${editId}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+
+                    body: JSON.stringify({ name }),
+                }
+            );
+
+
+            const data = await res.json();
+
+            if (!res.ok)
+                return toast.error(data.message);
+
+
+            toast.success("Category updated");
+
+            setName("");
+
+            setEditId(null);
+
+            fetchCategories();
+
+        } catch {
+
+            toast.error("Update failed");
+
+        }
+
+    };
 
 }
