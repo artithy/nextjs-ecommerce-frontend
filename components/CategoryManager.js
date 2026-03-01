@@ -15,6 +15,7 @@ export default function CategoryManager() {
             const res = await fetch(
                 "http://127.0.0.1:8000/api/categories"
             );
+            const data = await res.json();
 
             setCategories(data.categories || data);
         } catch {
@@ -39,7 +40,7 @@ export default function CategoryManager() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authentication: `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({ name }),
                 }
@@ -110,4 +111,117 @@ export default function CategoryManager() {
 
     };
 
+    const handleDelete = async (id) => {
+        if (!confirm("Are you sure you want to delete this category?")) {
+            return;
+        }
+        try {
+            const res = await fetch(
+                `http://127.0.0.1:8000/api/admin/categories/${id}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            const data = await res.json();
+            if (!res.ok) {
+                return toast.error(data.message);
+
+                toast.success("Category Deleted");
+                fetchCategories();
+            }
+        } catch {
+            toast.error("Delete failed");
+        }
+
+    };
+
+    const handleCancel = () => {
+        setEditId(null);
+        setName("");
+    }
+    return (<>
+
+        <div className="container py-4">
+            <div classNAme="card-shadow card-body">
+                <div className="card-body">
+                    <h4 className="mb-4">
+                        {editId ? "Edit Category" : "Add Category"}
+                    </h4>
+
+                    <form
+                        onSubmit={editId ? handleUpdate : handleAdd}
+                        className="d-flex gap-2 mb-4">
+                        <input
+                            className="form-control"
+                            placeholder="Category Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+
+                        <button className="btn btn-dark">
+                            {editId ? "Update" : "Add"}
+                        </button>
+
+                        {editId && (
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={handleCancel}
+                            >
+                                Cancel
+                            </button>
+                        )}
+                    </form>
+
+                    <table className="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th width="150">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {categories.length > 0 ? (
+                                categories.map((cat) => (
+                                    <tr key={cat.id}>
+                                        <td>{cat.id}</td>
+                                        <td>{cat.name}</td>
+                                        <td>
+                                            <button className="btn btn-sm btn-warning me-2"
+                                                onClick={() => handleEdit(cat)}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button className="btn btn-sm btn-danger"
+                                                onClick={() => handleEdit(cat)}
+                                            >
+                                                Delete
+                                            </button>
+
+
+                                        </td>
+
+                                    </tr>
+                                ))
+                            ) : (
+                                <>
+                                    <tr>
+                                        <td colSpan="3" className="text-center">
+                                            No Categories found
+                                        </td>
+                                    </tr>
+                                </>
+                            )
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </>)
 }
