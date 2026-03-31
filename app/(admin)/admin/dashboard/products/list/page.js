@@ -73,7 +73,7 @@ export default function ProductList() {
                 {
                     method: "DELETE",
                     headers: {
-                        Authorization: 'Bearer ${token}',
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );

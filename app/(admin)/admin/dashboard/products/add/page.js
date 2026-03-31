@@ -119,7 +119,7 @@ export default function AddProduct() {
                                 <select
                                     className="form-select"
                                     value={categoryId}
-                                    onChange={(e) => setCategoryId(e.target.value)}
+                                    onChange={(e) => setCategoryId(Number(e.target.value))}
                                 >
                                     <option value="">Select Category</option>
                                     {categories.map((cat) => (
