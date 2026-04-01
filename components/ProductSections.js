@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 export default function ProductSections() {
     const [products, setProducts] = useState([]);
@@ -113,9 +114,11 @@ export default function ProductSections() {
                                                 )}
                                             </div>
 
-                                            <button className="btn btn-dark mt-auto w-100">
-                                                View Details
-                                            </button>
+                                            <Link href={`/products/${p.id}`}>
+                                                <button className="btn btn-dark mt-auto w-100">
+                                                    View Details
+                                                </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

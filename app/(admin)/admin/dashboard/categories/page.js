@@ -27,7 +27,7 @@ export default function CategoryManager() {
     };
 
     useEffect(() => {
-        const t = localStorage.getItem("token");
+        const t = localStorage.getItem("admin_token");
         setToken(t);
         fetchCategories();
     }, []);

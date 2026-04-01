@@ -47,7 +47,7 @@ export default function DashboardHome() {
             );
             const hoursData = await resStats.json();
             setHourChart(hoursData);
-        } catch {
+        } catch (error) {
             console.log("Dashboard Error:", error);
         }
     };

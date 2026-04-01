@@ -8,11 +8,11 @@ import { usePathname } from "next/navigation";
 export default function PublicLayout({ children }) {
 
     const pathname = usePathname();
-
+    const hide = pathname.startsWith("/products/");
     return (
         <>
-            <Navbar />
-            {pathname === "/" && (
+            {!hide && <Navbar />}
+            {pathname === "/" && !hide && (
                 <section className="position-relative overflow-hidden">
 
                     <img
@@ -53,7 +53,7 @@ export default function PublicLayout({ children }) {
 
             {children}
 
-            <Footer />
+            {!hide && <Footer />}
         </>
     );
 }
