@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 export default function ProductDetails() {
+    const router = useRouter();
     const { id } = useParams();
     const [product, setProduct] = useState(null);
 
@@ -19,6 +21,16 @@ export default function ProductDetails() {
 
     if (!product) {
         return <p className="text-center py-5">Loading...</p>
+    }
+
+    const handleBuyNow = () => {
+        const token = localStorage.getItem("customer_token");
+        if (!token) {
+            toast.error("Please login to continue");
+            router.push("/customer/login");
+        } else {
+            router.push("/customer/checkout");
+        }
     }
 
     return (
@@ -63,11 +75,11 @@ export default function ProductDetails() {
                         </div>
 
                         <div className="d-flex gap-3">
-                            <button className="btn btn-dark px-4 py-2">
+                            <button className="btn btn-outline-dark px-4 py-2">
                                 Add to Cart
                             </button>
 
-                            <button className="btn btn-outline-dark px-4 py-2">
+                            <button className="btn btn-outline-dark px-4 py-2" onClick={handleBuyNow}>
                                 Buy Now
                             </button>
                         </div>
