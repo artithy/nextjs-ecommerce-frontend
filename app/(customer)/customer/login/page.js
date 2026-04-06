@@ -26,7 +26,7 @@ export default function Login() {
 
             toast.success("Login successful ");
             localStorage.setItem("customer_token", data.token);
-            router.push("/");
+            router.push("/dashboard");
         } catch {
             toast.error("Server error");
         }
