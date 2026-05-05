@@ -21,7 +21,7 @@ export default function Login() {
             });
 
             const data = await res.json();
-
+            console.log("LOGIN RESPONSE:", data);
             if (!res.ok) return toast.error(data.message);
 
             toast.success("Login successful ");

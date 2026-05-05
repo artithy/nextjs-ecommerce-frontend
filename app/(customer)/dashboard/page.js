@@ -7,7 +7,12 @@ import ProductSection from "../../../components/ProductSections";
 
 export default function CustomerDashboard() {
     const router = useRouter();
-    const [stats, setStats] = useState({});
+    const [cartItems, setCartItems] = useState([]);
+    const [stats, setStats] = useState({
+        total_orders: 0,
+        cart_items: 0,
+        wishlist_items: 0,
+    });
     const [orders, setOrders] = useState([]);
 
     const fetchDashboard = async () => {
@@ -17,13 +22,14 @@ export default function CustomerDashboard() {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             };
-            const resStats = await fetch("http://127.0.0.1:8000/api/customer/dashboard/boxes", { headers });
-            const statsData = await resStats.json();
-            setStats(statsData);
 
-            const resOrders = await fetch("http://127.0.0.1:8000/api/customer/orders", { headers });
+            const resOrders = await fetch("http://127.0.0.1:8000/api/orders", { headers });
             const ordersData = await resOrders.json();
-            setOrders(ordersData || []);
+            setOrders(ordersData.orders || []);
+
+            const resCart = await fetch("http://127.0.0.1:8000/api/cart", { headers });
+            const cartData = await resCart.json();
+            setCartItems(cartData.cart || cartData || []);
 
         } catch (error) {
             console.error(" Customer dashboard error:", error);
@@ -43,9 +49,11 @@ export default function CustomerDashboard() {
                     </div>
 
                     <div className="col-md-4" onClick={() => router.push("/dashboard/cart")} style={{ cursor: "pointer" }}>
-                        <DashboardBox title="Total Items" value={stats.cart_items} />
+                        <DashboardBox
+                            title="Cart Items"
+                            value={cartItems?.length || 0}
+                        />
                     </div>
-
                     <div className="col-md-4" onClick={() => router.push("/dashboard/wishlist")} style={{ cursor: "pointer" }}>
                         <DashboardBox title="Wishlist" value={stats.wishlist_items} />
                     </div>

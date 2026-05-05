@@ -33,7 +33,7 @@ export default function CustomerSignupPage() {
             }
             toast.success("Account created");
             localStorage.setItem("customer_token", data.token);
-            router.push("/customer/dashboard");
+            router.push("/dashboard");
         } catch {
             toast.error("Server error");
         }

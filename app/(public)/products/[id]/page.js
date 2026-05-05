@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 export default function ProductDetails() {
+    const [quantity, setQuantity] = useState(1);
     const router = useRouter();
     const { id } = useParams();
     const [product, setProduct] = useState(null);
@@ -30,6 +31,42 @@ export default function ProductDetails() {
             router.push("/customer/login");
         } else {
             router.push("/customer/checkout");
+        }
+    }
+
+    const handleAddToCart = async () => {
+        const token = localStorage.getItem("customer_token");
+        console.log("TOKEN:", token);
+        if (!token) {
+            toast.error("please login to continue");
+            return router.push("/customer/login");
+        }
+
+        try {
+            const res = await fetch("http://127.0.0.1:8000/api/add/cart", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    product_id: product.id,
+                    quantity: quantity,
+                }),
+            });
+
+            const text = await res.text();
+            console.log("FULL RESPONSE:", text);
+
+            if (!res.ok) {
+                toast.error("Failed to add to cart");
+                return;
+            }
+
+            toast.success("Added to cart");
+            router.push("/dashboard");
+        } catch (error) {
+            toast.error("Error adding to cart", error);
         }
     }
 
@@ -65,17 +102,21 @@ export default function ProductDetails() {
                         <hr />
 
                         <div className="d-flex aligh-items-center gap-3 mb-4">
+
+                            <button className="btn btn-outline-dark btn-sm" onClick={() => {
+                                if (quantity > 1) {
+                                    setQuantity(quantity - 1);
+                                }
+                            }}>-</button>
                             <span className="fw-semibold">
-                                Quantity
+                                {quantity}
                             </span>
-                            <button className="btn btn-outline-dark btn-sm">-</button>
-                            <span>1</span>
-                            <button className="btn btn-outline-dark btn-sm">+</button>
+                            <button className="btn btn-outline-dark btn-sm" onClick={() => { setQuantity(quantity + 1) }} >+</button>
 
                         </div>
 
                         <div className="d-flex gap-3">
-                            <button className="btn btn-outline-dark px-4 py-2">
+                            <button className="btn btn-outline-dark px-4 py-2" onClick={handleAddToCart}>
                                 Add to Cart
                             </button>
 
